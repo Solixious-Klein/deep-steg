@@ -1,3 +1,9 @@
+/*
+ * @author : The Arcanist
+ * @version : 1.0
+ * @Created : 2nd March 2013
+ */
+
 package ds;
 
 import java.awt.Color;
@@ -167,13 +173,24 @@ public class Steganography {
 		}
 		return size;
 	}
+	private boolean sizeWithinLimit() {
+		int size=(int)file.length();
+		int pixels=height*width;
+		int possibleBytes=((pixels*3)*depth)/8;
+		int actualBytes=possibleBytes-15;
+		return (actualBytes<=size);
+	}
 	
 	public void setDepth(int depth) {
 		
 		this.depth=depth;
 	}
 	
-	public void hide(String imgPath) {
+	public boolean hide(String imgPath) {
+		
+		if(sizeWithinLimit()) {
+			return false;
+		}
 		byte img[]=getImageBytes();
 		byte b[]=getFileBytes();
 		initializeUserSpace();
@@ -213,10 +230,11 @@ public class Steganography {
 		
 		save(imgPath,img);
 		
+		return true;
 	}
-	public void hide(String imgPath,int depth) {
+	public boolean hide(String imgPath,int depth) {
 		this.depth=depth;
-		hide(imgPath);
+		return hide(imgPath);
 	}
 	
 	public void extract(String path) {
