@@ -181,6 +181,13 @@ public class Steganography {
 		return (actualBytes<=size);
 	}
 	
+	public int getSizeAllowed() {
+		int pixels=height*width;
+		int possibleBytes=((pixels*3)*depth)/8;
+		int actualBytes=possibleBytes-15;
+		return actualBytes;
+	}
+	
 	public void setDepth(int depth) {
 		
 		this.depth=depth;
@@ -237,7 +244,7 @@ public class Steganography {
 		return hide(imgPath);
 	}
 	
-	public void extract(String path) {
+	public boolean extract(String path) {
 		
 		path=path.toLowerCase();
 		byte img[]=getImageBytes();
@@ -245,6 +252,9 @@ public class Steganography {
 			//read the depth
 			depth=1;
 			depth=readFromImage(img);
+			
+			if(!(depth>0 && depth<8))
+				return false;
 			
 			//read file type (extension) info
 			byte l=readFromImage(img);
@@ -272,6 +282,8 @@ public class Steganography {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 }
