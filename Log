@@ -1,0 +1,13 @@
+Deep Steg v1.1 (11th March, 2014)
+Updates : Viewing information about the size of files that can be stored in the image for various depths is possible now
+
+Deep Steg v1.0 (2nd March, 2014)
+Features :
+* Made in java
+* Used for hiding files inside the pixels' RGB values.
+* Varying depths of hiding, 
+  i.e. larger files can be stored if depth is increased, but the file is less traceable if the depth is kept low.
+  More bits per pixel are used at higher depths
+* The data from secret file is hidden along with the type/extension of file for ease of extraction in future
+* Saves the image containing data from secret file in PNG format
+* Executable in a CLI
