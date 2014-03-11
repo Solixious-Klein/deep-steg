@@ -1,7 +1,7 @@
 /*
  * @author : The Arcanist
- * @version : 1.0
- * @Created : 2nd March 2013
+ * @version : 1.1
+ * @Created : 11th March 2013
  */
 package ds;
 
@@ -58,17 +58,36 @@ public class DeepSteg {
 				else
 					System.out.println("\nAn error was encountered while extracting file.");
 			}
+			else if(args[0].equalsIgnoreCase("-i")) {
+				int depth=Integer.parseInt(args[1]);
+				String imageSource=args[2];
+				BufferedImage bi=null;
+				
+				try {
+				bi=ImageIO.read(new File(imageSource));
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				Steganography steg=new Steganography(bi);
+				steg.setDepth(depth);
+				
+				int size=steg.getSizeAllowed();
+				
+				System.out.println("The maximum size of file that can be hidden with a depth of "+depth+" is "+size+" bytes [approx]");
+			}
 		}
 		else if(args.length==1) {
 			if(args[0].equalsIgnoreCase("-help")){
-				System.out.println("______                  _____ _                      __   _____ ");
-				System.out.println("|  _  \\                /  ___| |                    /  | |  _  |");
-				System.out.println("| | | |___  ___ _ __   \\ `--.| |_ ___  __ _  __   __`| | | |/' |");
-				System.out.println("| | | / _ \\/ _ \\ '_ \\   `--. \\ __/ _ \\/ _` | \\ \\ / / | | |  /| |");
-				System.out.println("| |/ /  __/  __/ |_) | /\\__/ / ||  __/ (_| |  \\ V / _| |_\\ |_/ /");
-				System.out.println("|___/ \\___|\\___| .__/  \\____/ \\__\\___|\\__, |   \\_/  \\___(_)___/ ");
-				System.out.println("               | |                     __/ |                    ");
-				System.out.println("               |_|                    |___/                     ");
+				System.out.println("______                  _____ _                      __    __");  
+				System.out.println("|  _  \\                /  ___| |                    /  |  /  |"); 
+				System.out.println("| | | |___  ___ _ __   \\ `--.| |_ ___  __ _  __   __`| |  `| |"); 
+				System.out.println("| | | / _ \\/ _ \\ '_ \\   `--. \\ __/ _ \\/ _` | \\ \\ / / | |   | |"); 
+				System.out.println("| |/ /  __/  __/ |_) | /\\__/ / ||  __/ (_| |  \\ V / _| |___| |_");
+				System.out.println("|___/ \\___|\\___| .__/  \\____/ \\__\\___|\\__, |   \\_/  \\___(_)___/");
+				System.out.println("               | |                     __/ |                   ");
+				System.out.println("               |_|                    |___/                    ");
 				System.out.println("\n\n---------------------------------------------------------------------------------");
 				System.out.println("\n   Description:\n" +
 						"\n---------------------------------------------------------------------------------" +
@@ -82,7 +101,8 @@ public class DeepSteg {
 						"\n   java ds.DeepSteg [mode] [param1] [param2] [param3] [param4]\n" +
 						"\n---------------------------------------------------------------------------------" +
 						"\n\n   [mode] -----> +h -----> for hiding file mode\n" +
-						"                 -h -----> for extracting hidden file mode\n\n" +
+						"                 -h -----> for extracting hidden file mode\n" +
+						"                 -i -----> for viewing size limit details\n\n" +
 						"   For mode +h,\n" +
 						"   [param1] -----> Depth [1-4]\n" +
 						"   [param2] -----> Source Image's Name/Path\n" +
@@ -90,7 +110,10 @@ public class DeepSteg {
 						"   [param4] -----> Destination Image's Name/Path\n\n" +
 						"   For mode -h,\n" +
 						"   [param1] -----> Carrier Image's Name/Path\n" +
-						"   [param2] -----> Extracted File's Name/Path\n" +
+						"   [param2] -----> Extracted File's Name/Path\n\n" +
+						"   For mode -i,\n" +
+						"   [param1] -----> Depth [1-4]\n" +
+						"   [param2] -----> Source Image's Name/Path\n" +
 						"\n---------------------------------------------------------------------------------"
 						);
 			}
